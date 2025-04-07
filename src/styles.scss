@@ -1,0 +1,93 @@
+$primary-color: #4e5a49;
+$secondary-color: #474747;
+$background-color: #EDF1EB;
+$error-color: #A63A47;
+$success-color:  #08723F;
+
+/*button colors*/
+$primary-button-color:$primary-color;
+
+body{
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: $background-color;
+    color:$secondary-color;
+    padding: 0px;
+}
+
+h1{
+    color: rgb(26, 117, 187);
+}
+
+@mixin make-container {
+    width: 100%;
+    max-width: 1000px;
+    height: auto;
+    min-height: 1250px;
+    background-color: #afa8a8;
+    padding: 0px;
+    margin: auto;   
+    border: solid black;   
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.content-container {
+    @include make-container();
+}
+
+nav{
+  float: left;
+  width: 30%;
+  height: 1250px; /* only for demonstration, should be removed */
+  background: $primary-color;
+  padding: 0px;
+}
+.primary-button{
+    background-color: $primary-button-color;
+    color:$background-color;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+
+    &:hover{
+        background-color: $secondary-color;
+    }
+}
+
+.secondary-button{
+    background-color: $secondary-color;
+    color:$background-color;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+
+    &:hover{
+        background-color: $primary-color;
+    }
+}
+
+.error-text{
+    color: $error-color;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+.error-box{
+    border: 1px solid $error-color;
+    background-color: $error-color;
+    width: 250px;
+    padding: 10px;
+    border-radius: 5px;
+    color: $background-color; 
+}

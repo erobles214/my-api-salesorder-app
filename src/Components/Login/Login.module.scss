@@ -1,0 +1,36 @@
+@use '/src/styles.scss';
+
+@mixin make-container {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    min-height: 700px;
+    background-color: #afa8a8;
+    padding: 16px;
+    margin: auto;   
+    border: solid black;   
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.custom-container {
+    @include make-container();
+}
+
+body, html {
+    height: 100%;
+    margin: 0;
+}
+
+.h1 {
+    color: aliceblue;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;  
+}
