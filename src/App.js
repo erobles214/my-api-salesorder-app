@@ -1,4 +1,4 @@
-import './styles.scss';
+import './assets/scss/custom.scss';
 import AppRouter from './routes'
 
 function App() {

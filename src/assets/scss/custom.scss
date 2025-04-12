@@ -1,0 +1,317 @@
+@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+@import "../../../node_modules/bootstrap-icons/font/bootstrap-icons.scss";
+$primary-color: #4e5a49;
+$secondary-color: #343a40;
+$background-color: #EDF1EB;
+$error-color: #A63A47;
+$success-color:  #08723F;
+$sidebar-width: 250px;
+$transition-speed: 0.3s;
+
+/*button colors*/
+$primary-button-color:$primary-color;
+
+body{
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    background-color: $background-color;
+    color:$secondary-color;
+    padding: 0px;
+}
+
+h1{
+    color: rgb(26, 117, 187);
+}
+
+@mixin make-container {
+    width: 90%;
+    max-width: 1200px;
+    height: auto;
+    min-height: 95vh;
+    background-color: #afa8a8;
+    padding: 0px;
+    margin: auto;   
+    border: solid black;   
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.content-container {
+    @include make-container();
+}
+
+// Make text and graphs responsive
+.responsive-text {
+    font-size: clamp(12px, 2vw, 24px);
+    color: aliceblue;
+}
+
+.responsive-graph {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+}
+
+// Wrapper for centering content
+.wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+    margin-left: 250px; // Default to match sidebar width
+    transition: margin-left 0.3s ease; // Smooth transition  
+    
+    .sidebar.collapsed + & {
+        margin-left: 80px; // Adjust when sidebar collapses
+    }
+}
+
+.navbar {
+    display: block !important;
+  }
+
+
+.sidebar {
+    width: 250px;
+    height: 100vh; /* Full height */
+    //transition: width 0.3s ease;
+    overflow: hidden;
+    background-color: $secondary-color; /* Dark background */
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: fixed;
+}
+
+/* toggler button */
+.navbar-toggler {
+    background-color: $secondary-color;
+}
+
+/* Collapsed Sidebar */
+.sidebar.collapsed {
+    width: 80px;
+}
+ 
+.btn-close {
+    position: absolute;
+    top: 1px;
+    left: 15px;
+    filter: invert(1);
+}
+
+.sidebar .navbar-brand {
+    color: white;
+    font-size: 1.5rem;
+    text-align: center;
+    margin-bottom: 20px;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    width: 100%;
+}
+
+.sidebar.collapsed .navbar-brand{
+    opacity: 0;
+    transform: scale(0);
+}
+
+.sidebar .navbar-nav {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    align-items: center;
+    padding-left: 0;
+}
+
+.sidebar .nav-item {
+    width: 100%;
+    margin-bottom: 10px;
+}
+
+.sidebar .nav-link {
+    color: white;
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    transition: all 0.3s ease;
+}
+
+.sidebar .nav-link i {
+    width: 40px;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.sidebar.collapsed .nav-link span {
+    opacity: 0;
+    transform: translateX(-10px);
+    pointer-events: none;
+}
+
+.sidebar .nav-link:hover {
+    color: #f8f9fa;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+}
+
+ /* Toggler Button */
+ .sidebar-toggler {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    align-self: flex-start;
+    margin-left: 10px;
+    transition: transform 0.3s ease;
+}
+
+.sidebar.collapsed .sidebar-toggler {
+    transform: rotate(180deg);
+}
+
+@media (max-width: 768px) {
+
+    @mixin make-container {
+        width: 100%;
+        max-width: 1200px;
+        height: auto;
+        min-height: 82vh;
+        background-color: #afa8a8;
+        padding: 0px;
+        margin: auto;   
+        border: solid black;   
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+
+    .content-container {
+        @include make-container();
+    }
+
+    .wrapper {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 70vh;
+        padding: 8px;
+        margin-left: 20px; // Default to match sidebar width
+        transition: margin-left 0.3s ease; // Smooth transition  
+        margin: 10px;
+        .sidebar.collapsed + & {
+            margin-left: 80px; // Adjust when sidebar collapses
+        }
+    }
+    
+    .sidebar{
+        width: 100%;
+        height: auto;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        padding: 10ox 0;
+    }
+   
+    .sidebar .navbar-brand {
+        display: none;
+    }
+
+     /* Align Items Horizontally in footer*/
+    .sidebar .navbar-nav {
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        width: 100%;    
+    }
+
+    /* Footer Nav Items */
+    .sidebar .nav-item {
+        margin-bottom: 0;
+        flex: 1;
+        text-align: center;        
+    }
+
+    /* Footer Nav Links */
+    .sidebar .nav-link {
+        font-size: 1rem;
+        padding: 5px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar-toggler {
+        display: none;
+    }
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+  }
+
+.primary-button{
+    background-color: $primary-button-color;
+    color:$background-color;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+
+    &:hover{
+        background-color: $secondary-color;
+    }
+}
+
+.secondary-button{
+    background-color: $secondary-color;
+    color:$background-color;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 600;
+    transition: background-color 0.3s ease;
+
+    &:hover{
+        background-color: $primary-color;
+    }
+}
+
+.error-text{
+    color: $error-color;
+    font-size: 16px;
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+.error-box{
+    border: 1px solid $error-color;
+    background-color: $error-color;
+    width: 250px;
+    padding: 10px;
+    border-radius: 5px;
+    color: $background-color; 
+}
