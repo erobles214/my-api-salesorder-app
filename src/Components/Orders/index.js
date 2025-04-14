@@ -1,10 +1,11 @@
 import { React } from 'react';
+import OrderSheet from '../OrderSheet';
 
 const Orders = () => {
     return (
         <div className="wrapper">
-            <div className="content-container">
-                <h1 className="h1">this is orders</h1>
+            <div className="nav-tab-content-container">
+            <OrderSheet></OrderSheet>
             </div>
     </div>
     )

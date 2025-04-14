@@ -1,5 +1,4 @@
-@import "../../../node_modules/bootstrap/scss/bootstrap.scss";
-@import "../../../node_modules/bootstrap-icons/font/bootstrap-icons.scss";
+
 $primary-color: #4e5a49;
 $secondary-color: #343a40;
 $background-color: #EDF1EB;
@@ -7,6 +6,7 @@ $error-color: #A63A47;
 $success-color:  #08723F;
 $sidebar-width: 250px;
 $transition-speed: 0.3s;
+
 
 /*button colors*/
 $primary-button-color:$primary-color;
@@ -40,6 +40,55 @@ h1{
 .content-container {
     @include make-container();
 }
+
+@mixin make-nav-tab-content-container {
+    width: 80%;
+    height: auto;
+    min-height: 95vh;
+    background-color: #afa8a8;
+    padding: 0px;
+    margin: auto;   
+    border: solid black;   
+    border-radius: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.nav-tab-content-container {
+    @include make-nav-tab-content-container();
+}
+
+.nav-content {
+  width: 100%;
+  height: auto;
+  min-height: 90vh;
+  background-color: #EDF1EB;
+  padding: 10px;
+  margin: auto;
+  border: solid black;
+  border-radius: 25px;
+  justify-content: center;
+  text-align: center;
+}
+
+.nav-tabs .nav-link {
+    background-color: #4e5a49; // default bg
+    color: #EDF1EB;
+    border: 1px solid transparent;
+    font-size: 1.5rem;
+  
+    &:hover {
+      background-color: #EDF1EB;
+      color: #4e5a49;
+    }
+  
+    &.active {
+      background-color: #007bff; // 🔥 your custom active bg
+      color: #EDF1EB;
+      border-color: #007bff #007bff #fff;
+    }
+  }
 
 // Make text and graphs responsive
 .responsive-text {
@@ -96,12 +145,6 @@ h1{
     width: 80px;
 }
  
-.btn-close {
-    position: absolute;
-    top: 1px;
-    left: 15px;
-    filter: invert(1);
-}
 
 .sidebar .navbar-brand {
     color: white;
