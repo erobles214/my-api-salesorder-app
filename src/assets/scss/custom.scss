@@ -8,8 +8,17 @@ $sidebar-width: 250px;
 $transition-speed: 0.3s;
 
 
+
+
 /*button colors*/
 $primary-button-color:$primary-color;
+@import "~bootstrap/scss/bootstrap";
+:root {
+    --bs-nav-link-hover-color: #4e5a49; // whatever color you want on hover
+  }
+
+$body-bg: #f0f0f0;
+$body-color: #333;
 
 body{
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -19,7 +28,7 @@ body{
 }
 
 h1{
-    color: rgb(26, 117, 187);
+    color: rgb(18, 228, 140);
 }
 
 @mixin make-container {
@@ -59,6 +68,7 @@ h1{
     @include make-nav-tab-content-container();
 }
 
+/*Orders Tab & Tab Pane*/
 .nav-content {
   width: 100%;
   height: auto;
@@ -72,21 +82,26 @@ h1{
   text-align: center;
 }
 
+.nav-tabs {
+    --bs-nav-link-hover-color: #4e5a49;
+  }
+
 .nav-tabs .nav-link {
     background-color: #4e5a49; // default bg
     color: #EDF1EB;
     border: 1px solid transparent;
-    font-size: 1.5rem;
+    font-size: 1.1rem;
+    font-weight: 600;
   
     &:hover {
-      background-color: #EDF1EB;
+      background-color: #e05e07;
       color: #4e5a49;
     }
   
     &.active {
-      background-color: #007bff; // 🔥 your custom active bg
+      background-color: #ecd824; // 🔥 your custom active bg
       color: #EDF1EB;
-      border-color: #007bff #007bff #fff;
+      border-color: #EDF1EB #EDF1EB #fff;
     }
   }
 
@@ -240,20 +255,42 @@ h1{
         @include make-container();
     }
 
+    @mixin make-nav-tab-content-container {
+        width: 100%;
+        height: auto;
+        min-height: 95vh;
+        background-color: #afa8a8;
+        padding: 0px;
+        margin: auto;   
+        border: solid black;   
+        border-radius: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+    }
+    .nav-tab-content-container {
+        @include make-nav-tab-content-container();
+    }
+
     .wrapper {
         display: flex;
         justify-content: center;
         align-items: center;
         min-height: 70vh;
-        padding: 8px;
-        margin-left: 20px; // Default to match sidebar width
-        transition: margin-left 0.3s ease; // Smooth transition  
-        margin: 10px;
-        .sidebar.collapsed + & {
-            margin-left: 80px; // Adjust when sidebar collapses
-        }
+        padding: 2px;        
+        //transition: margin-left 0.3s ease; // Smooth transition  
+        margin: 0px;
     }
     
+     .nav i{
+        color: black;
+        &:hover {
+            color: rgb(28, 192, 137);
+          }
+      }
+      
+      
     .sidebar{
         width: 100%;
         height: auto;
@@ -293,6 +330,40 @@ h1{
         flex-direction: column;
         align-items: center;
     }
+
+    /*phone Tab & Tab Panes */
+    .nav-content {
+        width: 100%;
+        height: auto;
+        min-height: 90vh;
+        background-color: #EDF1EB;
+        padding: 10px;
+        margin: auto;
+        border: solid black;
+        border-radius: 25px;
+        justify-content: center;
+        text-align: center;
+      }
+      
+    
+      .nav-tabs .nav-link  {
+          background-color: #4e5a49; // default bg
+          color: #EDF1EB;
+          border: 1px solid transparent;
+          font-size: 3rem;
+          font-weight: 600;
+        
+          &:hover {
+            background-color: #EDF1EB;
+            color: #4e5a49;
+          }
+        
+          &.active {
+            background-color: #EDF1EB; // 🔥 your custom active bg
+            color: #EDF1EB;
+            border-color: #EDF1EB #EDF1EB #fff;
+          }
+        }
 }
 
 @media (max-width: 768px) {

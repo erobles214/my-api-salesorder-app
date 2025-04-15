@@ -14,8 +14,6 @@ const Navbar = () => {
 
         window.addEventListener("resize", handleResize);
     }, []);
-    // const togglerSidebar = () => setSidebarOpen(!isSidebarOpen);
-    // const closeSidebar = () => setSidebarOpen(false);
 
     return (
         <>
@@ -30,7 +28,7 @@ const Navbar = () => {
                 <ul class="navbar-nav">
                     <li class="nav-item"><Link class="nav-link" to="/home"><i class="bi bi-house-door"></i><span>Home</span></Link></li>
                     <li class="nav-item"><Link class="nav-link" to="/orders"><i className="bi bi-pencil-square"></i><span>Orders</span></Link></li>
-                    <li class="nav-item"><Link class="nav-link" to="/manage"><i class="bi bi-gear"></i><span>Manage</span></Link></li>
+                    <li class="nav-item"><Link class="nav-link" to="/manage"><i className="bi bi-gear"></i><span>Manage</span></Link></li>
                     <li class="nav-item"><Link class="nav-link" to="/inventory"><i class="bi bi-boxes"></i><span>Inventory</span></Link></li>
                 </ul>                                            
         </nav>      
