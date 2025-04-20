@@ -1,5 +1,8 @@
 import React, { useEffect, useState } from "react";
-import "../../assets/scss/custom.scss";
+// import "../../../node_modules/bootstrap/scss/bootstrap.scss";
+// import "../../../node_modules/bootstrap-icons/font/bootstrap-icons.scss";
+import "../../../src/assets/scss/custom.scss"
+//import 'bootstrap';
 import { Link } from "react-router-dom";
 
 const Navbar = () => {

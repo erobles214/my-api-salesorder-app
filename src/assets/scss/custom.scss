@@ -1,24 +1,23 @@
 
 $primary-color: #4e5a49;
 $secondary-color: #343a40;
-$background-color: #EDF1EB;
+$background-color: #afa8a8;
 $error-color: #A63A47;
 $success-color:  #08723F;
 $sidebar-width: 250px;
 $transition-speed: 0.3s;
 
 
-
-
 /*button colors*/
 $primary-button-color:$primary-color;
 @import "~bootstrap/scss/bootstrap";
-:root {
-    --bs-nav-link-hover-color: #4e5a49; // whatever color you want on hover
-  }
 
 $body-bg: #f0f0f0;
 $body-color: #333;
+
+html {
+    contain: layout style;
+  }
 
 body{
     font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -28,7 +27,7 @@ body{
 }
 
 h1{
-    color: rgb(18, 228, 140);
+    color: rgb(26, 117, 187);
 }
 
 @mixin make-container {
@@ -73,6 +72,8 @@ h1{
   width: 100%;
   height: auto;
   min-height: 90vh;
+  overflow-y: auto;
+  max-height: 90vh;
   background-color: #EDF1EB;
   padding: 10px;
   margin: auto;
@@ -82,10 +83,6 @@ h1{
   text-align: center;
 }
 
-.nav-tabs {
-    --bs-nav-link-hover-color: #4e5a49;
-  }
-
 .nav-tabs .nav-link {
     background-color: #4e5a49; // default bg
     color: #EDF1EB;
@@ -94,16 +91,17 @@ h1{
     font-weight: 600;
   
     &:hover {
-      background-color: #e05e07;
+      background-color: #cce093;
       color: #4e5a49;
     }
   
     &.active {
-      background-color: #ecd824; // 🔥 your custom active bg
-      color: #EDF1EB;
-      border-color: #EDF1EB #EDF1EB #fff;
+      background-color: $background-color; // 🔥 your custom active bg
+      color: $secondary-color;
+      //border-color: #007bff #007bff #fff;
     }
   }
+
 
 // Make text and graphs responsive
 .responsive-text {
@@ -233,6 +231,12 @@ h1{
     transform: rotate(180deg);
 }
 
+.form-label {
+    margin-bottom: 0.5rem;
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.5rem;
+  }
+
 @media (max-width: 768px) {
 
     @mixin make-container {
@@ -258,7 +262,7 @@ h1{
     @mixin make-nav-tab-content-container {
         width: 100%;
         height: auto;
-        min-height: 95vh;
+        min-height: 90vh;
         background-color: #afa8a8;
         padding: 0px;
         margin: auto;   
@@ -283,14 +287,6 @@ h1{
         margin: 0px;
     }
     
-     .nav i{
-        color: black;
-        &:hover {
-            color: rgb(28, 192, 137);
-          }
-      }
-      
-      
     .sidebar{
         width: 100%;
         height: auto;
@@ -343,27 +339,32 @@ h1{
         border-radius: 25px;
         justify-content: center;
         text-align: center;
+        padding-left: 20px;
+        //padding-left: 14px;
       }
       
-    
-      .nav-tabs .nav-link  {
+      .nav-tabs .nav-link {
           background-color: #4e5a49; // default bg
           color: #EDF1EB;
           border: 1px solid transparent;
-          font-size: 3rem;
-          font-weight: 600;
-        
+          font-size: 2.5rem;
+          font-weight: 100;         
           &:hover {
             background-color: #EDF1EB;
             color: #4e5a49;
           }
         
           &.active {
-            background-color: #EDF1EB; // 🔥 your custom active bg
-            color: #EDF1EB;
-            border-color: #EDF1EB #EDF1EB #fff;
+            background-color: #f0f0f0; // 🔥 your custom active bg
+            color:$primary-color;
+            //border-color: #EDF1EB #EDF1EB black;
           }
         }
+
+        form {
+            overflow-y: auto;
+            max-height: 90vh;
+          }
 }
 
 @media (max-width: 768px) {
@@ -384,7 +385,7 @@ h1{
 
 .primary-button{
     background-color: $primary-button-color;
-    color:$background-color;
+    color:#f0f0f0;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
