@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import Form from "../Form"
 import Materials from "../Form/Materials";
+import Table from "../Table";
 //import "../../../node_modules/bootstrap/scss/bootstrap.scss";
 // import "../../../node_modules/bootstrap-icons/font/bootstrap-icons.scss";
 
@@ -58,7 +59,7 @@ const OrderSheet = () => {
                     </div>
                 </nav>
                     <div className="tab-content" id="nav-tabContent">
-                        <div className="tab-pane fade show active" id="nav-wrk-list" role="tabpanel" aria-labelledby="nav-wrk-list-tab" tabIndex="0"></div>
+                        <div className="tab-pane fade show active" id="nav-wrk-list" role="tabpanel" aria-labelledby="nav-wrk-list-tab" tabIndex="0"><Table></Table></div>
                         <div className="tab-pane fade" id="nav-wrk-ord" role="tabpanel" aria-labelledby="nav-wrk-ord-tab" tabIndex="0"><Form tabName="Work Order"></Form></div>
                         <div className="tab-pane fade" id="nav-material" role="tabpanel" aria-labelledby="nav-material-tab" tabIndex="0"><Form tabName="Material"></Form></div>
                         <div className="tab-pane fade" id="nav-labor" role="tabpanel" aria-labelledby="nav-labor-tab" tabIndex="0"><Form tabName="Labor"></Form></div>

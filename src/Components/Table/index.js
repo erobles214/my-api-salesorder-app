@@ -1,128 +1,340 @@
-import React, { useState } from 'react';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import BootstrapTable from 'react-bootstrap-table-next';
-import cellEditFactory from 'react-bootstrap-table2-editor';
-import paginationFactory from 'react-bootstrap-table2-paginator';
-import { Modal, Button, Form } from 'react-bootstrap';
+import { useMemo, useState } from 'react';
+import {
+  MRT_EditActionButtons,
+  MantineReactTable,
+  // createRow,
+  useMantineReactTable,
+} from 'mantine-react-table';
+import {
+  ActionIcon,
+  Button,
+  Flex,
+  Stack,
+  Text,
+  Title,
+  Tooltip,
+} from '@mantine/core';
+import { ModalsProvider, modals } from '@mantine/modals';
+import { IconEdit, IconTrash } from '@tabler/icons-react';
+import {
+  QueryClient,
+  QueryClientProvider,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
+import { fakeData, usStates } from '../../makeData';
 
-const initialData = [
-    { id: 1, name: 'Apple', price: 100 },
-    { id: 2, name: 'Banana', price: 80 }
-  ];
+const Example = () => {
+  const [validationErrors, setValidationErrors] = useState({});
 
-const  CrudTable = () => {
-
-    const [products, setProducts] = useState(initialData);
-    const [showModal, setShowModal] = useState(false);
-    const [editingProduct, setEditingProduct] = useState(null);
-  
-    const columns = [
-      { dataField: 'id', text: 'ID', editable: false },
-      { dataField: 'name', text: 'Product Name' },
-      { dataField: 'price', text: 'Price' },
+  const columns = useMemo(
+    () => [
       {
-        dataField: 'actions',
-        text: 'Actions',
-        isDummyField: true,
-        formatter: (_, row) => (
-          <Button size="sm" variant="secondary" onClick={() => handleEdit(row)}>Edit</Button>
-        )
-      }
-    ];
-  
-    const handleEdit = (product) => {
-      setEditingProduct(product);
-      setShowModal(true);
-    };
-  
-    const handleDeleteSelected = () => {
-      setProducts(products.filter(p => !selected.includes(p.id)));
-      setSelected([]);
-    };
-  
-    const handleSave = () => {
-      if (editingProduct.id) {
-        setProducts(products.map(p => p.id === editingProduct.id ? editingProduct : p));
-      } else {
-        const newId = products.length ? Math.max(...products.map(p => p.id)) + 1 : 1;
-        setProducts([...products, { ...editingProduct, id: newId }]);
-      }
-      setShowModal(false);
-      setEditingProduct(null);
-    };
-  
-    const handleAdd = () => {
-      setEditingProduct({ name: '', price: '' });
-      setShowModal(true);
-    };
-  
-    const [selected, setSelected] = useState([]);
-  
-    const selectRow = {
-      mode: 'checkbox',
-      clickToSelect: true,
-      selected,
-      onSelect: (row, isSelect) => {
-        setSelected(isSelect ? [...selected, row.id] : selected.filter(x => x !== row.id));
+        accessorKey: 'id',
+        header: 'Id',
+        enableEditing: false,
+        size: 80,
       },
-      onSelectAll: (isSelect, rows) => {
-        setSelected(isSelect ? rows.map(r => r.id) : []);
-      }
-    };
-    
-    return(
-<div className="container mt-4">
-      <div className="d-flex justify-content-between mb-2">
-        <h4>Product List</h4>
-        <div>
-          <Button variant="primary" className="me-2" onClick={handleAdd}>Add Product</Button>
-          <Button variant="danger" onClick={handleDeleteSelected} disabled={selected.length === 0}>Delete Selected</Button>
-        </div>
-      </div>
-      <BootstrapTable
-        keyField="id"
-        data={products}
-        columns={columns}
-        selectRow={selectRow}
-        pagination={paginationFactory()}
-        cellEdit={cellEditFactory({ mode: 'click', blurToSave: true })}
-        striped
-        hover
-        condensed
-      />
+      {
+        accessorKey: 'firstName',
+        header: 'First Name',
+        mantineEditTextInputProps: {
+          type: 'email',
+          required: true,
+          error: validationErrors?.firstName,
+          //remove any previous validation errors when user focuses on the input
+          onFocus: () =>
+            setValidationErrors({
+              ...validationErrors,
+              firstName: undefined,
+            }),
+          //optionally add validation checking for onBlur or onChange
+        },
+      },
+      {
+        accessorKey: 'lastName',
+        header: 'Last Name',
+        mantineEditTextInputProps: {
+          type: 'email',
+          required: true,
+          error: validationErrors?.lastName,
+          //remove any previous validation errors when user focuses on the input
+          onFocus: () =>
+            setValidationErrors({
+              ...validationErrors,
+              lastName: undefined,
+            }),
+        },
+      },
+      {
+        accessorKey: 'email',
+        header: 'Email',
+        mantineEditTextInputProps: {
+          type: 'email',
+          required: true,
+          error: validationErrors?.email,
+          //remove any previous validation errors when user focuses on the input
+          onFocus: () =>
+            setValidationErrors({
+              ...validationErrors,
+              email: undefined,
+            }),
+        },
+      },
+      {
+        accessorKey: 'state',
+        header: 'State',
+        editVariant: 'select',
+        mantineEditSelectProps: {
+          data: usStates,
+          error: validationErrors?.state,
+        },
+      },
+    ],
+    [validationErrors],
+  );
 
-      {/* Modal for Add/Edit */}
-      <Modal show={showModal} onHide={() => setShowModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>{editingProduct?.id ? 'Edit Product' : 'Add Product'}</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <Form>
-            <Form.Group controlId="formName" className="mb-3">
-              <Form.Label>Product Name</Form.Label>
-              <Form.Control
-                type="text"
-                value={editingProduct?.name || ''}
-                onChange={(e) => setEditingProduct({ ...editingProduct, name: e.target.value })}
-              />
-            </Form.Group>
-            <Form.Group controlId="formPrice" className="mb-3">
-              <Form.Label>Price</Form.Label>
-              <Form.Control
-                type="number"
-                value={editingProduct?.price || ''}
-                onChange={(e) => setEditingProduct({ ...editingProduct, price: Number(e.target.value) })}
-              />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowModal(false)}>Cancel</Button>
-          <Button variant="primary" onClick={handleSave}>Save</Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
-    )
+  //call CREATE hook
+  const { mutateAsync: createUser, isLoading: isCreatingUser } =
+    useCreateUser();
+  //call READ hook
+  const {
+    data: fetchedUsers = [],
+    isError: isLoadingUsersError,
+    isFetching: isFetchingUsers,
+    isLoading: isLoadingUsers,
+  } = useGetUsers();
+  //call UPDATE hook
+  const { mutateAsync: updateUser, isLoading: isUpdatingUser } =
+    useUpdateUser();
+  //call DELETE hook
+  const { mutateAsync: deleteUser, isLoading: isDeletingUser } =
+    useDeleteUser();
+
+  //CREATE action
+  const handleCreateUser = async ({ values, exitCreatingMode }) => {
+    const newValidationErrors = validateUser(values);
+    if (Object.values(newValidationErrors).some((error) => error)) {
+      setValidationErrors(newValidationErrors);
+      return;
+    }
+    setValidationErrors({});
+    await createUser(values);
+    exitCreatingMode();
+  };
+
+  //UPDATE action
+  const handleSaveUser = async ({ values, table }) => {
+    const newValidationErrors = validateUser(values);
+    if (Object.values(newValidationErrors).some((error) => error)) {
+      setValidationErrors(newValidationErrors);
+      return;
+    }
+    setValidationErrors({});
+    await updateUser(values);
+    table.setEditingRow(null); //exit editing mode
+  };
+
+  //DELETE action
+  const openDeleteConfirmModal = (row) =>
+    modals.openConfirmModal({
+      title: 'Are you sure you want to delete this user?',
+      children: (
+        <Text>
+          Are you sure you want to delete {row.original.firstName}{' '}
+          {row.original.lastName}? This action cannot be undone.
+        </Text>
+      ),
+      labels: { confirm: 'Delete', cancel: 'Cancel' },
+      confirmProps: { color: 'red' },
+      onConfirm: () => deleteUser(row.original.id),
+    });
+
+  const table = useMantineReactTable({
+    columns,
+    data: fetchedUsers,
+    createDisplayMode: 'modal', //default ('row', and 'custom' are also available)
+    editDisplayMode: 'modal', //default ('row', 'cell', 'table', and 'custom' are also available)
+    enableEditing: true,
+    getRowId: (row) => row.id,
+    mantineToolbarAlertBannerProps: isLoadingUsersError
+      ? {
+          color: 'red',
+          children: 'Error loading data',
+        }
+      : undefined,
+    mantineTableContainerProps: {
+      sx: {
+        minHeight: '500px',
+      },
+    },
+    onCreatingRowCancel: () => setValidationErrors({}),
+    onCreatingRowSave: handleCreateUser,
+    onEditingRowCancel: () => setValidationErrors({}),
+    onEditingRowSave: handleSaveUser,
+    renderCreateRowModalContent: ({ table, row, internalEditComponents }) => (
+      <Stack>
+        <Title order={3}>Create New User</Title>
+        {internalEditComponents}
+        <Flex justify="flex-end" mt="xl">
+          <MRT_EditActionButtons variant="text" table={table} row={row} />
+        </Flex>
+      </Stack>
+    ),
+    renderEditRowModalContent: ({ table, row, internalEditComponents }) => (
+      <Stack>
+        <Title order={3}>Edit User</Title>
+        {internalEditComponents}
+        <Flex justify="flex-end" mt="xl">
+          <MRT_EditActionButtons variant="text" table={table} row={row} />
+        </Flex>
+      </Stack>
+    ),
+    renderRowActions: ({ row, table }) => (
+      <Flex gap="md">
+        <Tooltip label="Edit">
+          <ActionIcon onClick={() => table.setEditingRow(row)}>
+            <IconEdit />
+          </ActionIcon>
+        </Tooltip>
+        <Tooltip label="Delete">
+          <ActionIcon color="red" onClick={() => openDeleteConfirmModal(row)}>
+            <IconTrash />
+          </ActionIcon>
+        </Tooltip>
+      </Flex>
+    ),
+    renderTopToolbarCustomActions: ({ table }) => (
+      <Button
+        onClick={() => {
+          table.setCreatingRow(true); //simplest way to open the create row modal with no default values
+          //or you can pass in a row object to set default values with the `createRow` helper function
+          // table.setCreatingRow(
+          //   createRow(table, {
+          //     //optionally pass in default values for the new row, useful for nested data or other complex scenarios
+          //   }),
+          // );
+        }}
+      >
+        Create New User
+      </Button>
+    ),
+    state: {
+      isLoading: isLoadingUsers,
+      isSaving: isCreatingUser || isUpdatingUser || isDeletingUser,
+      showAlertBanner: isLoadingUsersError,
+      showProgressBars: isFetchingUsers,
+    },
+  });
+
+  return <MantineReactTable table={table} />;
 };
 
-export default CrudTable;
+//CREATE hook (post new user to api)
+function useCreateUser() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (user) => {
+      //send api update request here
+      await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
+      return Promise.resolve();
+    },
+    //client side optimistic update
+    onMutate: (newUserInfo) => {
+      queryClient.setQueryData(['users'], (prevUsers) => [
+        ...prevUsers,
+        {
+          ...newUserInfo,
+          id: (Math.random() + 1).toString(36).substring(7),
+        },
+      ]);
+    },
+    // onSettled: () => queryClient.invalidateQueries({ queryKey: ['users'] }), //refetch users after mutation, disabled for demo
+  });
+}
+
+//READ hook (get users from api)
+function useGetUsers() {
+  return useQuery({
+    queryKey: ['users'],
+    queryFn: async () => {
+      //send api request here
+      await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
+      return Promise.resolve(fakeData);
+    },
+    refetchOnWindowFocus: false,
+  });
+}
+
+//UPDATE hook (put user in api)
+function useUpdateUser() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (user) => {
+      //send api update request here
+      await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
+      return Promise.resolve();
+    },
+    //client side optimistic update
+    onMutate: (newUserInfo) => {
+      queryClient.setQueryData(['users'], (prevUsers) =>
+        prevUsers?.map((prevUser) =>
+          prevUser.id === newUserInfo.id ? newUserInfo : prevUser,
+        ),
+      );
+    },
+    // onSettled: () => queryClient.invalidateQueries({ queryKey: ['users'] }), //refetch users after mutation, disabled for demo
+  });
+}
+
+//DELETE hook (delete user in api)
+function useDeleteUser() {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: async (userId) => {
+      //send api update request here
+      await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
+      return Promise.resolve();
+    },
+    //client side optimistic update
+    onMutate: (userId) => {
+      queryClient.setQueryData(['users'], (prevUsers) =>
+        prevUsers?.filter((user) => user.id !== userId),
+      );
+    },
+    // onSettled: () => queryClient.invalidateQueries({ queryKey: ['users'] }), //refetch users after mutation, disabled for demo
+  });
+}
+
+const queryClient = new QueryClient();
+
+const ExampleWithProviders = () => (
+  //Put this with your other react-query providers near root of your app
+  <QueryClientProvider client={queryClient}>
+    <ModalsProvider>
+      <Example />
+    </ModalsProvider>
+  </QueryClientProvider>
+);
+
+export default ExampleWithProviders;
+
+const validateRequired = (value) => !!value.length;
+const validateEmail = (email) =>
+  !!email.length &&
+  email
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
+    );
+
+function validateUser(user) {
+  return {
+    firstName: !validateRequired(user.firstName)
+      ? 'First Name is Required'
+      : '',
+    lastName: !validateRequired(user.lastName) ? 'Last Name is Required' : '',
+    email: !validateEmail(user.email) ? 'Incorrect Email Format' : '',
+  };
+}
