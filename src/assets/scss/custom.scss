@@ -132,6 +132,7 @@ h1{
 
 .navbar {
     display: block !important;
+    z-index: 1000;
   }
 
 
@@ -282,7 +283,7 @@ h1{
         justify-content: center;
         align-items: center;
         min-height: 70vh;
-        padding: 2px;        
+        padding-top: 60px;     
         //transition: margin-left 0.3s ease; // Smooth transition  
         margin: 0px;
     }
@@ -296,7 +297,8 @@ h1{
         flex-direction: row;
         justify-content: space-around;
         align-items: center;
-        padding: 10ox 0;
+        padding: 10px 0;
+        z-index: 1000;
     }
    
     .sidebar .navbar-brand {

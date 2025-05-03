@@ -112,3 +112,72 @@ export const usStates = [
   'Wyoming',
   'Puerto Rico',
 ];
+
+export const Users = [
+  {
+    id: '9s41rp',
+    firstName: 'Kelvin',
+    lastName: 'Langosh',
+    email: 'Jerod14@hotmail.com',
+    state: 'Ohio',
+  },
+  {
+    id: '08m6rx',
+    firstName: 'Molly',
+    lastName: 'Purdy',
+    email: 'Hugh.Dach79@hotmail.com',
+    state: 'Rhode Island',
+  },
+  {
+    id: '5ymtrc',
+    firstName: 'Henry',
+    lastName: 'Lynch',
+    email: 'Camden.Macejkovic@yahoo.com',
+    state: 'California',
+  },
+  {
+    id: 'ek5b97',
+    firstName: 'Glenda',
+    lastName: 'Douglas',
+    email: 'Eric0@yahoo.com',
+    state: 'Montana',
+  }
+];
+
+export const InventoryItems = [
+  {
+    id: 'Tdsewe',
+    name: 'White Paint',
+    brand: 'Bear',
+    cost: '56.00',
+    qty: '100',
+  },
+  {
+    id: 'Podned',
+    name: 'Exterior Paint',
+    brand: 'Bear',
+    cost: '86.00',
+    qty: '100',
+  },
+  {
+    id: 'opewSt',
+    name: 'Baige',
+    brand: 'Bear',
+    cost: '56.00',
+    qty: '200',
+  },
+  {
+    id: 'mPdnep',
+    name: 'White Ceiling',
+    brand: 'Pimex',
+    cost: '56.00',
+    qty: '100',
+  },
+  {
+    id: 'mLpsep',
+    name: 'White Ceiling',
+    brand: 'Pimex',
+    cost: '56.00',
+    qty: '130',
+  } 
+];
