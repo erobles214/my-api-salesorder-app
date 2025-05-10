@@ -10,6 +10,11 @@ $transition-speed: 0.3s;
 
 /*button colors*/
 $primary-button-color:$primary-color;
+$btn-color:#afa8a8;
+$btn-bg: $secondary-color;
+//$modal-content-color: $secondary-color;
+$modal-md:800px;
+$modal-dialog-margin-y-sm-up: 18.75rem;
 @import "~bootstrap/scss/bootstrap";
 
 $body-bg: #f0f0f0;
@@ -29,6 +34,8 @@ body{
 h1{
     color: rgb(26, 117, 187);
 }
+
+
 
 @mixin make-container {
     width: 90%;
@@ -397,13 +404,13 @@ h1{
     transition: background-color 0.3s ease;
 
     &:hover{
-        background-color: $secondary-color;
+        background-color: $primary-button-color;
     }
 }
 
 .secondary-button{
-    background-color: $secondary-color;
-    color:$background-color;
+    background-color: $background-color;
+    color:#f0f0f0;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -413,7 +420,7 @@ h1{
     transition: background-color 0.3s ease;
 
     &:hover{
-        background-color: $primary-color;
+        background-color: $background-color;
     }
 }
 
