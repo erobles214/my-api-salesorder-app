@@ -48,7 +48,7 @@ const Materials = () => {
                 {/* defaultValue={items.outOfStock || ""}/> */}
             </div>
             <div class="col-12">
-                <button type="submit" className="primary-button">Edit</button>
+                <button type="submit" className="primary-button">Save</button>
             </div>
             </form>
     )

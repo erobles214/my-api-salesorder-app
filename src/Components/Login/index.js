@@ -15,10 +15,22 @@ const Login = () => {
                 <div class={styles["wrapper"]}>
                     <div class={styles["custom-container"]}>                     
                         <div>
-                        <form onSubmit={handleLogin}>
-                         <h1 class={styles["h1"]}>Login Page</h1>                                            
-                        <br></br>                   
+                        <form  className="row g-3" onSubmit={handleLogin}>
+                         <div class="col-12">
+                            <label for="username" class="form-label">User Name</label>
+                            <input type="text" 
+                            class="form-control" 
+                            id="username"/>           
+                        </div>
+                        <div class="col-12">
+                            <label for="password" class="form-label">Password</label>
+                            <input type="password" 
+                            class="form-control" 
+                            id="password"/>           
+                        </div>
+                         <div class="col-12">
                         <button class={styles["primary-button"]} type="submit">Login</button>
+                        </div>
                         </form>
                         </div>
                     </div>                    
