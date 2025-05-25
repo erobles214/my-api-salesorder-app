@@ -1,19 +1,32 @@
 import { React, useEffect, useState } from 'react';
-import { InventoryItems } from "../../makeData";
+//import { InventoryItems } from "../../makeData";
 import  UpdateMaterial  from "../Form/UpdateMaterial"
+import { getInventory } from "../../Modules/inventoryModules";
+import { get } from 'react-hook-form';
 
 const Inventory = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [modalType, setModalType] = useState("");
     const [modalData, setModalData] = useState("");
-    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);       
+    const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);     
+    const [inventoryData, setInventoryData] = useState([]);  
     
         useEffect(() => {
             const handleResize = () => {
                 setIsMobile(window.innerWidth <= 768);
                 //setSidebarOpen(false);
             };
-    
+
+            const fetchInventory = async () => {
+                try {
+                    const response = await getInventory();
+                    console.log("Inventory", response)
+                    setInventoryData(response.data);
+                } catch (error) {
+                    
+                }
+            }
+            fetchInventory();
             window.addEventListener("resize", handleResize);
         }, []);
 
@@ -27,7 +40,7 @@ const Inventory = () => {
             console.log("type: " + type + " item: " + item.name);         
         }
 
-        const filterInventory = InventoryItems.filter(inventory => 
+        const filterInventory = inventoryData.filter(inventory => 
             inventory.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
             inventory.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
             inventory.id.includes(searchTerm)
@@ -83,41 +96,44 @@ const Inventory = () => {
                             <div className="card-body">
                                 <div className='row'>
                                     <div className='col-md-2'>
-                                        <h5>Name: {items.name}</h5>
+                                        <strong>Name: </strong> {items.name}
                                     </div>
                                     <div className='col-md-2'>
-                                        <h5>Brand: {items.brand}</h5>
+                                        <strong>Brand: </strong> {items.brand}
                                     </div>
                                     <div className='col-md-2'>
-                                        <h5>Cost: {items.cost}</h5>
+                                        <strong>Type: </strong>{items.type}
                                     </div>
                                     <div className='col-md-2'>
-                                        <h5>Quantity: {items.qty}</h5>
+                                        <strong>Price: </strong>{items.price}
                                     </div>
                                     <div className='col-md-2'>
-                                        {/* {`${!isMobile ? <div className='btn-group d-flex justify-content-end' role='group'>
-                <button type='button' className='btn'>Edit</button>
-                <button type='button' className='btn'>Delete</button>
-                <button type='button' className='btn'>View</button>
-                </div> :
-                <div className='btn-group' role='group'>
-                    <button id='btnGroupDrop1' type='button' className='btn dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>
-                    Select Option
-                    </button>
-                    <li><a className='dropdown-item' href='#'>Edit</a></li>
-                    <li><a className='dropdown-item' href='#'>Delete</a></li>
-                    <li><a className='dropdown-item' href='#'>View</a></li>
-                </div>
-            }`}                             */}
+                                        <strong>Quantity: </strong>{items.stock}
+                                    </div>
+                                    <div className='col-md-2'>
+                                            {/* {`${!isMobile ? <div className='btn-group d-flex justify-content-end' role='group'>
+                                                <button type='button' className='btn'>Edit</button>
+                                                <button type='button' className='btn'>Delete</button>
+                                                <button type='button' className='btn'>View</button>
+                                                </div> :
+                                                <div className='btn-group' role='group'>
+                                                    <button id='btnGroupDrop1' type='button' className='btn dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>
+                                                    Select Option
+                                                    </button>
+                                                    <li><a className='dropdown-item' href='#'>Edit</a></li>
+                                                    <li><a className='dropdown-item' href='#'>Delete</a></li>
+                                                    <li><a className='dropdown-item' href='#'>View</a></li>
+                                                </div>
+                                            }`}                             */}
                                         <div className='btn-group d-flex justify-content-end' role='group'>
                                             {/* Button trigger modal */}
-                                            <button type="button" className="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleOpenModal('edit', items)}>
+                                            <button type="button" className="btn primary-button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleOpenModal('edit', items)}>
                                                      Edit
                                                 </button>
-                                            <button type='button' className='btn' data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleOpenModal('view', items)}>
+                                            <button type='button' className='btn primary-button' data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleOpenModal('view', items)}>
                                                       View
                                                 </button>
-                                            <button type='button' className='btn' data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleOpenModal('delete', items)}>
+                                            <button type='button' className='btn primary-button' data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleOpenModal('delete', items)}>
                                                      Delete
                                                 </button>                                            
                                         </div>

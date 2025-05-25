@@ -1,24 +1,40 @@
 import { React, useEffect, useState } from 'react';
 import { Users } from "../../makeData";
 import UpdateManage from '../Form/UpdateManage';
-
+import { getUsers } from '../../Modules/userModules'
 const Manage = () => {
 
     const [searchTerm, setSearchTerm] = useState("");
     const [modalType, setModalType] = useState("");
     const [modalData, setModalData] = useState("");
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+    const [userData, setUserData] = useState([]);
 
     useEffect(() => {
             const handleResize = () => {
                 setIsMobile(window.innerWidth <= 768);
                 //setSidebarOpen(false);
             };
-    
-            window.addEventListener("resize", handleResize);
-        }, []);
+            
+            const fetchUsers = async () => {
+                try {
+                    const response = await getUsers();
+                    setUserData(response.data);
+                    console.log('Users', userData);
+                } catch (error) {
+                    console.error('Error fetching users:', error);
+                }
+            };           
 
-    const handleSearchChange = (event) => {
+            fetchUsers();
+
+            window.addEventListener("resize", handleResize);
+
+            // Clean up event listener
+            return () => window.removeEventListener("resize", handleResize);
+        }, []);
+       
+        const handleSearchChange = (event) => {
         setSearchTerm(event.target.value);
     }
 
@@ -28,7 +44,7 @@ const Manage = () => {
             console.log("type: " + type + " item: " + user.firstName);         
     }
 
-    const filterUsers = Users.filter(user => 
+    const filterUsers = userData.filter(user => 
         `${user.firstName} ${user.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
             user.email.toLocaleLowerCase().includes(searchTerm.toLowerCase())
         )
@@ -77,10 +93,10 @@ const Manage = () => {
                             <div className="card-body">
                                 <div className='row'>
                                     <div className='col-md-2'>
-                                        <h5><b>Full Name: </b>{user.firstName}</h5>
+                                        <h5><b>Full Name: </b>{user.firstName} {user.lastName}</h5>
                                     </div>
                                     <div className='col-md-4'>
-                                        <h5><b>User Name: </b>{user.lastName}</h5>
+                                        <h5><b>User Name: </b>{user.email}</h5>
                                     </div>
                                     <div className='col-md-4'>
                                         <h5><b>Email: </b>{user.email}</h5>
@@ -102,13 +118,13 @@ const Manage = () => {
             }`}                             */}
                                         <div className='btn-group d-flex justify-content-end' role='group'>
                                             {/* Button trigger modal */}
-                                            <button type="button" className="btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleOpenModal('edit', user)}>
+                                            <button type="button" className="btn primary-button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleOpenModal('edit', user)}>
                                                      Edit
                                                 </button>
-                                            <button type='button' className='btn' data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleOpenModal('view', user)}>
+                                            <button type='button' className='btn primary-button' data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleOpenModal('view', user)}>
                                                       View
                                                 </button>
-                                            <button type='button' className='btn' data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleOpenModal('delete', user)}>
+                                            <button type='button' className='btn primary-button' data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleOpenModal('delete', user)}>
                                                      Delete
                                                 </button>           
                                         </div>

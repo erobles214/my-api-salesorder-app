@@ -23,7 +23,8 @@ import {
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
-import { fakeData, usStates } from '../../makeData';
+//import { fakeData, usStates } from '../../makeData';
+import { getWorkOrder }  from '../../Modules/orderModule';
 
 const Example = () => {
   const [validationErrors, setValidationErrors] = useState({});
@@ -37,58 +38,49 @@ const Example = () => {
         size: 80,
       },
       {
-        accessorKey: 'firstName',
-        header: 'First Name',
+        accessorKey: 'businessDate',
+        header: 'Business Date',
         mantineEditTextInputProps: {
-          type: 'email',
+          type: 'text',
           required: true,
-          error: validationErrors?.firstName,
+          error: validationErrors?.businessDate,
           //remove any previous validation errors when user focuses on the input
           onFocus: () =>
             setValidationErrors({
               ...validationErrors,
-              firstName: undefined,
+              businessDate: undefined,
             }),
           //optionally add validation checking for onBlur or onChange
         },
       },
       {
-        accessorKey: 'lastName',
-        header: 'Last Name',
+        accessorKey: 'materialOrderId',
+        header: 'Material Order Id',
         mantineEditTextInputProps: {
-          type: 'email',
+          type: 'text',
           required: true,
-          error: validationErrors?.lastName,
+          error: validationErrors?.materialOrderId,
           //remove any previous validation errors when user focuses on the input
           onFocus: () =>
             setValidationErrors({
               ...validationErrors,
-              lastName: undefined,
+              materialOrderId: undefined,
             }),
         },
       },
       {
-        accessorKey: 'email',
-        header: 'Email',
+        accessorKey: 'laborOrderId',
+        header: 'Labor Order Id',
         mantineEditTextInputProps: {
-          type: 'email',
+          type: 'text',
           required: true,
-          error: validationErrors?.email,
+          error: validationErrors?.laborOrderId,
           //remove any previous validation errors when user focuses on the input
           onFocus: () =>
             setValidationErrors({
               ...validationErrors,
-              email: undefined,
+              laborOrderId: undefined,
             }),
-        },
-      },
-      {
-        accessorKey: 'state',
-        header: 'State',
-        editVariant: 'select',
-        mantineEditSelectProps: {
-          data: usStates,
-          error: validationErrors?.state,
         },
       },
     ],
@@ -104,7 +96,7 @@ const Example = () => {
     isError: isLoadingUsersError,
     isFetching: isFetchingUsers,
     isLoading: isLoadingUsers,
-  } = useGetUsers();
+  } = useGetData();
   //call UPDATE hook
   const { mutateAsync: updateUser, isLoading: isUpdatingUser } =
     useUpdateUser();
@@ -175,7 +167,7 @@ const Example = () => {
     onEditingRowSave: handleSaveUser,
     renderCreateRowModalContent: ({ table, row, internalEditComponents }) => (
       <Stack>
-        <Title order={3}>Create New User</Title>
+        <Title order={3}>Create New Users</Title>
         {internalEditComponents}
         <Flex justify="flex-end" mt="xl">
           <MRT_EditActionButtons variant="text" table={table} row={row} />
@@ -207,6 +199,7 @@ const Example = () => {
     ),
     renderTopToolbarCustomActions: ({ table }) => (
       <Button
+        className='secondary-button'
         onClick={() => {
           table.setCreatingRow(true); //simplest way to open the create row modal with no default values
           //or you can pass in a row object to set default values with the `createRow` helper function
@@ -242,7 +235,7 @@ function useCreateUser() {
     },
     //client side optimistic update
     onMutate: (newUserInfo) => {
-      queryClient.setQueryData(['users'], (prevUsers) => [
+      queryClient.setQueryData(['workOrders'], (prevUsers) => [
         ...prevUsers,
         {
           ...newUserInfo,
@@ -255,13 +248,12 @@ function useCreateUser() {
 }
 
 //READ hook (get users from api)
-function useGetUsers() {
+function useGetData() {
   return useQuery({
-    queryKey: ['users'],
+    queryKey: ['workOrders'],
     queryFn: async () => {
-      //send api request here
-      await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
-      return Promise.resolve(fakeData);
+      const response = await getWorkOrder();
+      return response?.data?.[0]?.workOrders || [];
     },
     refetchOnWindowFocus: false,
   });
@@ -271,14 +263,13 @@ function useGetUsers() {
 function useUpdateUser() {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: async (user) => {
-      //send api update request here
-      await new Promise((resolve) => setTimeout(resolve, 1000)); //fake api call
-      return Promise.resolve();
+    mutationFn: async (updatedUser) => {
+      // Send update request using the correct API call
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Simulate API
+      return Promise.resolve(); // You can replace this with your real update API
     },
-    //client side optimistic update
     onMutate: (newUserInfo) => {
-      queryClient.setQueryData(['users'], (prevUsers) =>
+      queryClient.setQueryData(['workOrders'], (prevUsers) =>
         prevUsers?.map((prevUser) =>
           prevUser.id === newUserInfo.id ? newUserInfo : prevUser,
         ),
@@ -299,7 +290,7 @@ function useDeleteUser() {
     },
     //client side optimistic update
     onMutate: (userId) => {
-      queryClient.setQueryData(['users'], (prevUsers) =>
+      queryClient.setQueryData(['workOrders'], (prevUsers) =>
         prevUsers?.filter((user) => user.id !== userId),
       );
     },
