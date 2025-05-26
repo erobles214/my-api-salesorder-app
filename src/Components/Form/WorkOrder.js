@@ -1,17 +1,32 @@
 import React from "react";
 import { useForm, Controller, useFieldArray } from 'react-hook-form';
+import { addWorkOrder } from '../../Modules/orderModule';
 
 const WorkOrder = () => {
 
     const { handleSubmit, control, register } = useForm();
 
+    const onSubmit = async (data) => {
+        try {
+        const response = await addWorkOrder(data);
+         if (response?.status === 200)
+            {
+                console.log("Success");
+            }else {
+                console.log("Failed with status:", response?.status);
+            }     
+        } catch (error) {
+            console.error("API call failed:", error);
+        }
+        console.log(JSON.stringify(data));
+    }
     const {
         fields: mFields,
         append: mAppend,
         remove: mRemove,        
     } = useFieldArray({
         control,
-        name: 'material',
+        name: 'materials',
     });
 
     const {
@@ -23,9 +38,9 @@ const WorkOrder = () => {
         name: 'labor',
     });
 
-    const onSubmit = async (data) => {
-        console.log(JSON.stringify(data));
-    }
+    // const onSubmit = async (data) => {
+    //     console.log(JSON.stringify(data));
+    // }
     return(
         <form class="g-3" onSubmit={handleSubmit(onSubmit)}>
                 <div className="row p-5">
@@ -59,7 +74,7 @@ const WorkOrder = () => {
                             <div className="row p-4">
                                 <div className="col-12 col-md-2 mb-3">
                                     <label for="materials" class="form-label fs-6" control={control}>Select Material</label>
-                                    <select id="materials" class="form-select" {...register(`material.${index}.materials`)} >
+                                    <select id="materials" class="form-select" {...register(`materials.${index}.id`)} >
                                     <option selected>Choose...</option>
                                     {materialOptions.map((item, index) => (
                                         <option key={index} value={item.id}>{item.name}</option>
@@ -69,19 +84,19 @@ const WorkOrder = () => {
                                 </div>
                                 <div className="col-12 col-md-2 mb-3">
                                     <label for="cost" class="form-label fs-6">Material Cost</label>
-                                    <input type="text" class="form-control" id="cost" {...register(`material.${index}.cost`)}/>
+                                    <input type="text" class="form-control" id="cost" {...register(`materials.${index}.cost`)}/>
                                 </div>
                                 <div className="col-12 col-md-2 mb-3">
                                     <label for="tax" class="form-label fs-6">Material Tax</label>
-                                    <input type="text" class="form-control" id="tax" {...register(`material.${index}.tax`)}/>
+                                    <input type="text" class="form-control" id="tax" {...register(`materials.${index}.tax`)}/>
                                 </div>
                                 <div className="col-12 col-md-2 mb-3">
                                     <label for="total" class="form-label fs-6">Material Total</label>
-                                    <input type="text" class="form-control" id="total" {...register(`material.${index}.total`)}/>
+                                    <input type="text" class="form-control" id="total" {...register(`materials.${index}.total`)}/>
                                 </div>
                                 <div className="col-12 col-md-2 mb-3">
                                     <label for="quantity" class="form-label fs-6">Material Quantity</label>
-                                    <input type="text" class="form-control" id="quantity" {...register(`material.${index}.quantity`)}/>
+                                    <input type="text" class="form-control" id="quantity" {...register(`materials.${index}.quantity`)}/>
                                 </div>
                                 <div className="col-12 col-md-2 mb-3 p-4">
                                     <button type="button" onClick={() => mRemove(index)}>Delete</button>
@@ -99,7 +114,7 @@ const WorkOrder = () => {
                                 <div className="row p-4">
                                     <div className="col-12 col-md-4 mb-3">
                                         <label for="labors" class="form-label fs-6" control={control}>Select Client</label>
-                                        <select id="labors" class="form-select" {...register(`labor.${index}.labors`)} >
+                                        <select id="labors" class="form-select" {...register(`labor.${index}.id`)} >
                                         <option selected>Choose...</option>
                                         <option>Choose...</option>
                                         {laborOptions.map((item, index) => (
@@ -167,22 +182,22 @@ const WorkOrder = () => {
                         <input type="text" class="form-control" id="taxRate" {...register("taxRate")}/>
                     </div>
                     <div class="col-12 col-md-4 mb-3">
-                        <label for="taxTotal" class="form-label">Tax Total</label>
-                        <input type="text" class="form-control" id="taxTotal" {...register("taxTotal")}/>
+                        <label for="totalTax" class="form-label">Tax Total</label>
+                        <input type="text" class="form-control" id="totalTax" {...register("totalTax")}/>
                     </div>
                     </div> 
                      <div className="row p-4">
                         <div class="col-12 col-md-4 mb-3">
-                        <label for="materialtotal" class="form-label">Material Total</label>
-                        <input type="text" class="form-control" id="materialtotal" {...register("materialtotal")}/>
+                        <label for="materialTotal" class="form-label">Material Total</label>
+                        <input type="text" class="form-control" id="materialTotal" {...register("materialTotal")}/>
                     </div>
                     <div class="col-12 col-md-4 mb-3">
                         <label for="additional" class="form-label">Additional</label>
                         <input type="text" class="form-control" id="additional" {...register("additional")}/>
                     </div>
                     <div class="col-12 col-md-4 mb-3">
-                        <label for="totalAmount" class="form-label">Total Amount</label>
-                        <input type="text" class="form-control" id="total" {...register("totalAmount")}/>
+                        <label for="total" class="form-label">Total Amount</label>
+                        <input type="text" class="form-control" id="total" {...register("total")}/>
                     </div>
                     </div>                                                          
                     {/* <div class="col-12">

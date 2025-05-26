@@ -1,23 +1,39 @@
 import React from "react";
 import { postLabor } from "../../Modules/inventoryModules"
-import { useForm, Controller, useFieldArray } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 const Labor = () => {
 
     const { handleSubmit, control, register } = useForm();
+
+    const onSubmit = async (data) => {
+        try {
+            const response = await postLabor(data);
+            if (response?.status === 200)
+            {
+                console.log("Success");
+            }else {
+                console.log("Failed with status:", response?.status);
+            }
+        } catch (error) {
+            console.error("API call failed:", error);
+        }
+    }
     return(
-<form className="row p-5">
+    <form className="row p-5" onSubmit={handleSubmit(onSubmit)}>
         <div className="row p-3">
             <div class="col-12 col-md-6 mb-3">
                     <label for="name" class="form-label">Name</label>                            
                     <input type="text"
                     className="form-control" 
-                    id="name"/>
+                    id="name"
+                    {...register("name")}/>
                 </div>
                 <div class="col-12 col-md-6 mb-3">
                     <label for="type" class="form-label">Type</label>
                     <input type="text"
                     className="form-control" 
-                    id="type"/>
+                    id="type"
+                    {...register("type")}/>
                 </div>        
         </div>    
           <div className="row p-3">
@@ -25,13 +41,15 @@ const Labor = () => {
                 <label for="materialPrice" class="form-label">Description</label>
                 <input type="text"
                  className="form-control" 
-                 id="materialPrice"/>
+                 id="materialPrice"
+                 {...register("materialPrice")}/>
             </div>
             <div class="col-12 col-md-6 mb-3">
                 <label for="inputAddress2" class="form-label">Comment</label>
                 <input type="text"
                  className="form-control" 
-                 id="materialPrice"/>
+                 id="materialPrice"
+                 {...register("materialPrice")}/>
             </div>            
             </div>                    
             <div class="col-12">

@@ -1,11 +1,11 @@
 import React, { useEffec, useState }  from "react";
 import {addMaterial } from "../../Modules/inventoryModules";
-import { useForm, Controller, useFieldArray } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 
 const Materials = () => {
     // const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     
-    const { handleSubmit, control, register } = useForm();
+    const { handleSubmit, register } = useForm();
 
     const onSubmit = async (data) => {
         try {
@@ -23,7 +23,7 @@ const Materials = () => {
     }
 
     return(
-    <form class="row p-5" onSubmit={handleSubmit(onSubmit)}>
+    <form className="row p-5" onSubmit={handleSubmit(onSubmit)}>
             <div className="row p-3">
                 <div class="col-12 col-md-6 mb-3">
                     <label for="name" class="form-label">Material Name</label>
