@@ -4,6 +4,7 @@ $secondary-color: #343a40;
 $background-color: #afa8a8;
 $error-color: #A63A47;
 $success-color:  #08723F;
+$spinner-color: #eece19;
 $sidebar-width: 250px;
 $transition-speed: 0.3s;
 
@@ -16,6 +17,7 @@ $btn-bg: $secondary-color;
 $modal-md:800px;
 $modal-dialog-margin-y-sm-up: 18.75rem;
 @import "~bootstrap/scss/bootstrap";
+
 
 $body-bg: #f0f0f0;
 $body-color: #333;

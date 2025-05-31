@@ -10,6 +10,7 @@ const Inventory = () => {
     const [modalData, setModalData] = useState("");
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);     
     const [inventoryData, setInventoryData] = useState([]);  
+    const [isLoading, setIsLoading] = useState(false);
     
         useEffect(() => {
             const handleResize = () => {
@@ -19,13 +20,16 @@ const Inventory = () => {
 
             const fetchInventory = async () => {
                 try {
-                    const response = await getInventory();
+                    const response = await getInventory();                    
                     console.log("Inventory", response)
                     setInventoryData(response.data);
                 } catch (error) {
                     
+                } finally {
+                    setIsLoading(false);
                 }
             }
+            setIsLoading(true);
             fetchInventory();
             window.addEventListener("resize", handleResize);
         }, []);
@@ -81,69 +85,79 @@ const Inventory = () => {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div>           
             <div className={`${!isMobile ? "wrapper" : ""}`}>
-                <div className="container" style={{ maxHeight: '90vh', overflowY: 'auto', padding: '12px' }}>
-                    <div className="d-flex justify-content-end  p-3 mb-2 bg-light border rounded">
-                        <label for="searchTextBox">Search</label>
-                        <input type="text"
-                            id="searchTextBox"
-                            value={searchTerm}
-                            onChange={handleSearchChange}></input>
+                 {isLoading ? (
+                    // Spinner while loading
+                    <div className="d-flex justify-content-center align-items-center">
+                        <div className="spinner-grow spinner-color" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                        </div>
                     </div>
-                    {filterInventory.map((items, index) => (
-                        <div className="card mb-2">
-                            <div className="card-body">
-                                <div className='row'>
-                                    <div className='col-md-2'>
-                                        <strong>Name: </strong> {items.name}
-                                    </div>
-                                    <div className='col-md-2'>
-                                        <strong>Brand: </strong> {items.brand}
-                                    </div>
-                                    <div className='col-md-2'>
-                                        <strong>Type: </strong>{items.type}
-                                    </div>
-                                    <div className='col-md-2'>
-                                        <strong>Price: </strong>{items.price}
-                                    </div>
-                                    <div className='col-md-2'>
-                                        <strong>Quantity: </strong>{items.stock}
-                                    </div>
-                                    <div className='col-md-2'>
-                                            {/* {`${!isMobile ? <div className='btn-group d-flex justify-content-end' role='group'>
-                                                <button type='button' className='btn'>Edit</button>
-                                                <button type='button' className='btn'>Delete</button>
-                                                <button type='button' className='btn'>View</button>
-                                                </div> :
-                                                <div className='btn-group' role='group'>
-                                                    <button id='btnGroupDrop1' type='button' className='btn dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>
-                                                    Select Option
-                                                    </button>
-                                                    <li><a className='dropdown-item' href='#'>Edit</a></li>
-                                                    <li><a className='dropdown-item' href='#'>Delete</a></li>
-                                                    <li><a className='dropdown-item' href='#'>View</a></li>
+                    ) : (
+                        <div className="container" style={{ maxHeight: '90vh', overflowY: 'auto', padding: '12px' }}>
+                            <div className="d-flex justify-content-end  p-3 mb-2 bg-light border rounded">
+                                <label for="searchTextBox">Search</label>
+                                <input type="text"
+                                    id="searchTextBox"
+                                    value={searchTerm}
+                                    onChange={handleSearchChange}></input>
+                            </div>
+                            {filterInventory.map((items, index) => (
+                                <div className="card mb-2">
+                                    <div className="card-body">
+                                        <div className='row'>
+                                            <div className='col-md-2'>
+                                                <strong>Name: </strong> {items.name}
+                                            </div>
+                                            <div className='col-md-2'>
+                                                <strong>Brand: </strong> {items.brand}
+                                            </div>
+                                            <div className='col-md-2'>
+                                                <strong>Type: </strong>{items.type}
+                                            </div>
+                                            <div className='col-md-2'>
+                                                <strong>Price: </strong>{items.price}
+                                            </div>
+                                            <div className='col-md-2'>
+                                                <strong>Quantity: </strong>{items.stock}
+                                            </div>
+                                            <div className='col-md-2'>
+                                                    {/* {`${!isMobile ? <div className='btn-group d-flex justify-content-end' role='group'>
+                                                        <button type='button' className='btn'>Edit</button>
+                                                        <button type='button' className='btn'>Delete</button>
+                                                        <button type='button' className='btn'>View</button>
+                                                        </div> :
+                                                        <div className='btn-group' role='group'>
+                                                            <button id='btnGroupDrop1' type='button' className='btn dropdown-toggle' data-bs-toggle='dropdown' aria-expanded='false'>
+                                                            Select Option
+                                                            </button>
+                                                            <li><a className='dropdown-item' href='#'>Edit</a></li>
+                                                            <li><a className='dropdown-item' href='#'>Delete</a></li>
+                                                            <li><a className='dropdown-item' href='#'>View</a></li>
+                                                        </div>
+                                                    }`}                             */}
+                                                <div className='btn-group d-flex justify-content-end' role='group'>
+                                                    {/* Button trigger modal */}
+                                                    <button type="button" className="btn primary-button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleOpenModal('edit', items)}>
+                                                            Edit
+                                                        </button>
+                                                    <button type='button' className='btn primary-button' data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleOpenModal('view', items)}>
+                                                            View
+                                                        </button>
+                                                    <button type='button' className='btn primary-button' data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleOpenModal('delete', items)}>
+                                                            Delete
+                                                        </button>                                            
                                                 </div>
-                                            }`}                             */}
-                                        <div className='btn-group d-flex justify-content-end' role='group'>
-                                            {/* Button trigger modal */}
-                                            <button type="button" className="btn primary-button" data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleOpenModal('edit', items)}>
-                                                     Edit
-                                                </button>
-                                            <button type='button' className='btn primary-button' data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleOpenModal('view', items)}>
-                                                      View
-                                                </button>
-                                            <button type='button' className='btn primary-button' data-bs-toggle="modal" data-bs-target="#staticBackdrop" onClick={() => handleOpenModal('delete', items)}>
-                                                     Delete
-                                                </button>                                            
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            ))}
                         </div>
-                    ))}
-                </div>
-            </div></>
+                        )}
+            </div>            
+            </>
     )
 };
 

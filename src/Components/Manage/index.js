@@ -9,6 +9,7 @@ const Manage = () => {
     const [modalData, setModalData] = useState("");
     const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
     const [userData, setUserData] = useState([]);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
             const handleResize = () => {
@@ -24,8 +25,11 @@ const Manage = () => {
                 } catch (error) {
                     console.error('Error fetching users:', error);
                 }
+                finally{
+                    setIsLoading(false);
+                }
             };           
-
+            setIsLoading(true);
             fetchUsers();
 
             window.addEventListener("resize", handleResize);
@@ -80,6 +84,14 @@ const Manage = () => {
                 </div>
             </div>
         </div><div className={`${!isMobile ? "wrapper" : ""}`}>
+            {isLoading ? (
+                    // Spinner while loading
+                    <div className="d-flex justify-content-center align-items-center">
+                        <div className="spinner-grow $spinner-color" role="status">
+                        <span className="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                    ) : (
                 <div className="container" style={{ maxHeight: '90vh', overflowY: 'auto', padding: '12px' }}>
                     <div className="d-flex justify-content-end p-3 mb-2 bg-light border rounded">
                         <label htmlFor="searchTextBox" className="me-2 mb-0">Search User</label>
@@ -134,6 +146,7 @@ const Manage = () => {
                         </div>
                     ))}
                 </div>
+                )}
             </div></>
     )
 };

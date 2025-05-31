@@ -1,20 +1,32 @@
-import { React } from 'react';
+import { React, useState } from 'react';
 import styles from '../Login/Login.module.scss'; 
 import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const navigate = useNavigate();
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleLogin = async (event) => {
         event.preventDefault();
-        navigate('/home');
+        setIsLoading(true);
+
+        setTimeout(() => {
+            navigate('/home');
+        }, 2000);     
     };
 
     return (
         <body>
                 <div class={styles["wrapper"]}>
-                    <div class={styles["custom-container"]}>                     
-                        <div>
+                    <div class={styles["custom-container"]}>          
+                
+                    {isLoading ? (
+                        <div className="d-flex justify-content-center align-items-center">
+                            <div className="spinner-border spinner-color" role="status">
+                                <span className="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    ) : (
                         <form  className="row g-3" onSubmit={handleLogin}>
                          <div class="col-12">
                             <label for="username" class="form-label">User Name</label>
@@ -32,7 +44,7 @@ const Login = () => {
                         <button class={styles["primary-button"]} type="submit">Login</button>
                         </div>
                         </form>
-                        </div>
+                    )} 
                     </div>                    
                 </div>
                 </body>         

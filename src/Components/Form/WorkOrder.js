@@ -4,7 +4,12 @@ import { addWorkOrder } from '../../Modules/orderModule';
 
 const WorkOrder = () => {
 
-    const { handleSubmit, control, register } = useForm();
+    const { handleSubmit, control, register, setValue  } = useForm({
+        defaultValues: {
+            materials: [{id: '', name: '', cost: '', tax: '', total: '', quantity: '' }],
+            labor: [{id: '', name:'', description: '', comment: '', cost: '', total: '', hours: '', status: '', active: ''}]
+        }
+    });
 
     const onSubmit = async (data) => {
         try {
@@ -74,10 +79,17 @@ const WorkOrder = () => {
                             <div className="row p-4">
                                 <div className="col-12 col-md-2 mb-3">
                                     <label for="materials" class="form-label fs-6" control={control}>Select Material</label>
-                                    <select id="materials" class="form-select" {...register(`materials.${index}.id`)} >
+                                    <select id="materials" class="form-select" {...register(`materials.${index}.id`)}
+                                        onChange={(e) => {                                           
+                                        const selectedId = e.target.value;
+                                        const selectedMaterial = materialOptions.find((mat) => mat.id === parseInt(selectedId));
+                                        setValue(`materials.${index}.id`, selectedId);
+                                        setValue(`materials.${index}.name`, selectedMaterial?.name || '');
+                                        }}
+                                    >
                                     <option selected>Choose...</option>
-                                    {materialOptions.map((item, index) => (
-                                        <option key={index} value={item.id}>{item.name}</option>
+                                    {materialOptions.map((mat) => (
+                                        <option key={mat.id} value={mat.id}>{mat.name}</option>
                                     ))                                        
                                     }
                                     </select>
@@ -114,11 +126,18 @@ const WorkOrder = () => {
                                 <div className="row p-4">
                                     <div className="col-12 col-md-4 mb-3">
                                         <label for="labors" class="form-label fs-6" control={control}>Select Client</label>
-                                        <select id="labors" class="form-select" {...register(`labor.${index}.id`)} >
+                                        <select id="labors" class="form-select" {...register(`labor.${index}.id`)} 
+                                            onChange={(e) => {                                           
+                                            const selectedId = e.target.value;
+                                            const selectedMaterial = materialOptions.find((lab) => lab.id === parseInt(selectedId));
+                                            setValue(`labor.${index}.id`, selectedId);
+                                            setValue(`labor.${index}.name`, selectedMaterial?.name || '');
+                                        }}
+                                        >
                                         <option selected>Choose...</option>
                                         <option>Choose...</option>
-                                        {laborOptions.map((item, index) => (
-                                            <option key={index} value={item.id}>{item.name}</option>
+                                        {laborOptions.map((lab) => (
+                                            <option key={lab.id} value={lab.id}>{lab.name}</option>
                                         ))
                                         }                                        
                                         </select>
