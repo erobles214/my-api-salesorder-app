@@ -2,7 +2,7 @@
   "name": "my-api-salesorder-app",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://erobles214.github.io/my-api-salesorder-app", 
+  "homepage": "https://erobles214.github.io/my-api-salesorder-app",
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@mantine/core": "^6.0.21",
@@ -34,7 +34,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
