@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/my-api-salesorder-app/static/css/main.f8b5bb3a.css",
+    "main.js": "/my-api-salesorder-app/static/js/main.65f8b005.js",
+    "static/js/453.df1c30ca.chunk.js": "/my-api-salesorder-app/static/js/453.df1c30ca.chunk.js",
+    "static/media/bootstrap-icons.woff?": "/my-api-salesorder-app/static/media/bootstrap-icons.39795c0b4513de014cf8.woff",
+    "static/media/bootstrap-icons.woff2?": "/my-api-salesorder-app/static/media/bootstrap-icons.b7bcc075b395c14ce8c2.woff2",
+    "index.html": "/my-api-salesorder-app/index.html",
+    "main.f8b5bb3a.css.map": "/my-api-salesorder-app/static/css/main.f8b5bb3a.css.map",
+    "main.65f8b005.js.map": "/my-api-salesorder-app/static/js/main.65f8b005.js.map",
+    "453.df1c30ca.chunk.js.map": "/my-api-salesorder-app/static/js/453.df1c30ca.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.f8b5bb3a.css",
+    "static/js/main.65f8b005.js"
+  ]
+}
