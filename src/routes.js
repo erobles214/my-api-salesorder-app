@@ -14,13 +14,13 @@ import InventoryPage from './Pages/InventoryPage';
 
 const AppContent = () => {
     const location = useLocation();
-    const hideNavbarRoutes = ["/"];
+    const hideNavbarRoutes = ["/my-api-salesorder-app"];
 
     return (
         <>
             {!hideNavbarRoutes.includes(location.pathname) && <Navbar />}
             <Routes>               
-                <Route path="/" element={<Login />} />                
+                <Route path="/my-api-salesorder-app" element={<Login />} />                
                 <Route path="/home" element={<HomePage />} />
                 <Route path="/orders" element={<OrdersPage />} />
                 <Route path="/manage" element={<ManagePage />} />
