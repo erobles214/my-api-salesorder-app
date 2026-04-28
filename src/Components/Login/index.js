@@ -16,7 +16,7 @@ const Login = () => {
     };
 
     return (
-        <body>
+        
                 <div class={styles["wrapper"]}>
                     <div class={styles["custom-container"]}>          
                 
@@ -47,7 +47,7 @@ const Login = () => {
                     )} 
                     </div>                    
                 </div>
-                </body>         
+                       
         // <div className={styles["custom-container"]}>
         //     <h1>Login</h1>
         // </div>
